@@ -1,5 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+
+int m_cd(char **);
+int m_help(char **);
+int m_exit(char **);
 
 /*
 *   List of builtin commands, followed by their corresponding functions.
@@ -16,7 +21,6 @@ int (*builtin_func[]) (char **) = {
 	&m_help,
 	&m_exit
 };
-
 
 
 int
