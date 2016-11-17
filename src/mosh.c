@@ -28,7 +28,7 @@ split_line(char *line)
 {
 	int bufsize = TOK_BUFSIZE;
 	int position = 0;
-	char **tokens = malloc(sizeof(char*) * bufsize);
+	char **tokens = malloc(sizeof(char*) * TOK_BUFSIZE);
 	char *token;
 
 	if(!tokens){
