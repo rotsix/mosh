@@ -84,9 +84,9 @@ m_help(char **args)
 	printf("Use the man command for information on other programs.\n");
 	return 1;
 
-	if(args[1] != NULL){
+	if(args[0] != NULL){
 		for(i = 0; i < num_builtins(); i++){
-			if(strcmp(args[1],builtin_str[i]) == 0){
+			if(strcmp(args[0],builtin_str[i]) == 0){
 				myman(builtin_str[i]);
 			}
 		}
