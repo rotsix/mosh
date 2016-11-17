@@ -75,7 +75,7 @@ m_help(char **args)
 	int i;
 	printf("My Own SHell\n");
 	printf("Type program names and arguments, and hit enter.\n");
-	printf("The following are built in:\n");
+	printf("The following are built in: (you can do 'help <func>')\n");
 
 	for(i = 0; i < num_builtins(); i++){
 		printf("  %s\n", builtin_str[i]);
