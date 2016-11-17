@@ -40,7 +40,7 @@ split_line(char *line)
 	while(token != NULL){
 		tokens[position] = token;
 		position++;
- 
+
 		if(position >= bufsize){
 			bufsize += TOK_BUFSIZE;
 			tokens = realloc(tokens, sizeof(char*) * bufsize);
@@ -89,7 +89,7 @@ launch(char **args)
 int
 execute(char **args)
 {
-  int i;
+	int i;
 
 	if (args[0] == NULL) {
 		// An empty command was entered.
@@ -130,6 +130,6 @@ int
 main(int argc, char **argv)
 {
 	loop();
-	
+
 	return EXIT_SUCCESS;
 }
