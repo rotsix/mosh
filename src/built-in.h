@@ -5,4 +5,6 @@ int m_exit(char **);
 char **builtin_str;
 int (**builtin_func) (char **);
 
+void myman(char *);
+
 int num_builtins();

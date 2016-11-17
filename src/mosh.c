@@ -116,6 +116,7 @@ loop(void)
 	int status;
 
 	do {
+		// TODO make a prompt config in a config.h
 		printf("$ ");
 		line = read_line();
 		args = split_line(line);

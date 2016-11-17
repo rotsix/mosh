@@ -14,13 +14,31 @@ char *builtin_str[] = {
 	"help",
 	"exit"
 };
-
-
 int (*builtin_func[]) (char **) = {
 	&m_cd,
 	&m_help,
 	&m_exit
 };
+
+/*
+*	Man of functions.
+*	*/
+void
+myman(char *arg){
+	if(strcmp(arg,"cd")){
+		printf("cd: go to a directory, default $HOME.\n");
+		return;
+	}
+	if(strcmp(arg,"help")){
+		m_help(NULL);
+		return;
+	}
+	if(strcmp(arg,"exit")){
+		printf("exit: exit the current shell.\n");
+		return;
+	}
+}
+
 
 
 int
@@ -65,6 +83,14 @@ m_help(char **args)
 
 	printf("Use the man command for information on other programs.\n");
 	return 1;
+
+	if(args[1] != NULL){
+		for(i = 0; i < num_builtins(); i++){
+			if(strcmp(args[1],builtin_str[i]) == 0){
+				myman(builtin_str[i]);
+			}
+		}
+	}
 }
 
 
