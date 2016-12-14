@@ -4,31 +4,36 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include "built-in.h"
+#include "config.h"
 
-#define RL_BUFSIZE 1024
-#define TOK_BUFSIZE 64
-#define TOK_DELIM " \t\r\n\a"
+#define AUTHOR "Piczel"
+#define VERSION "0.1.0"
+
+#define TOKENS " \t\r\n\a"
 
 
 
 char *
-read_line(void)
+readLine(void)
 {
 	char *line = NULL;
-	ssize_t bufsize = 0;
-	getline(&line, &bufsize, stdin);
+	ssize_t bufsize = 9;
+	if(getline(&line,&bufsize,stdin) == -1){
+		fprintf(stderr, "mosh: reading line error\n");
+		exit(EXIT_FAILURE);
+	}
 	return line;
 }
 
 
 
 char **
-split_line(char *line)
+splitLine(char *line)
 {
-	int bufsize = TOK_BUFSIZE;
+	int buf = 64;
+	int bufsize = buf;
 	int position = 0;
-	char **tokens = malloc(sizeof(char*) * TOK_BUFSIZE);
+	char ** tokens = malloc(sizeof(char*) * buf);
 	char *token;
 
 	if(!tokens){
@@ -36,13 +41,13 @@ split_line(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(line, TOK_DELIM);
+	token = strtok(line, TOKENS);
 	while(token != NULL){
 		tokens[position] = token;
 		position++;
 
 		if(position >= bufsize){
-			bufsize += TOK_BUFSIZE;
+			bufsize += buf;
 			tokens = realloc(tokens, sizeof(char*) * bufsize);
 			if(!tokens){
 				fprintf(stderr, "mosh: allocation error\n");
@@ -50,7 +55,7 @@ split_line(char *line)
 			}
 		}
 
-		token = strtok(NULL, TOK_DELIM);
+		token = strtok(NULL, TOKENS);
 	}
 	tokens[position] = NULL;
 	return tokens;
@@ -89,49 +94,40 @@ launch(char **args)
 int
 execute(char **args)
 {
-	int i;
-
 	if (args[0] == NULL) {
 		// An empty command was entered.
 		return 1;
 	}
 
-	for(i = 0; i < num_builtins(); i++){
-		// FIXME segfault here
+	// for built-ins functions
+	/* for(int i = 0; i < num_builtins(); i++){
+	 	// FIXME segfault here
 		if(strcmp(args[0], builtin_str[i]) == 0){
 			return (*builtin_func[i])(args);
 		}
 	}
+	*/
 
 	return launch(args);
 }
 
 
 
-void
-loop(void)
+int
+main(int argc, char *argv[])
 {
 	char *line;
 	char **args;
 	int status;
-
 	do {
-		// TODO make a prompt config in a config.h
-		printf("$ ");
-		line = read_line();
-		args = split_line(line);
+		printf(prompt());
+		line = readLine();
+		args = splitLine(line);
 		status = execute(args);
 
 		free(line);
 		free(args);
 	} while(status);
-}
-
-
-int
-main(int argc, char **argv)
-{
-	loop();
 
 	return EXIT_SUCCESS;
 }

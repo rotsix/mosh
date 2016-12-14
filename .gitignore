@@ -32,3 +32,6 @@
 *.dSYM/
 *.su
 vgcore.*
+
+# some shits commin' from me
+src/saved/
