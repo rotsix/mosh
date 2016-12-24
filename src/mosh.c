@@ -8,6 +8,7 @@
 
 #define AUTHOR "Piczel"
 #define VERSION "0.1.0"
+#define LICENSE "LGPL"
 
 #define TOKENS " \t\r\n\a"
 
@@ -17,7 +18,7 @@ char *
 readLine(void)
 {
 	char *line = NULL;
-	ssize_t bufsize = 9;
+	size_t bufsize = 0;
 	if(getline(&line,&bufsize,stdin) == -1){
 		fprintf(stderr, "mosh: reading line error\n");
 		exit(EXIT_FAILURE);
@@ -33,7 +34,7 @@ splitLine(char *line)
 	int buf = 64;
 	int bufsize = buf;
 	int position = 0;
-	char ** tokens = malloc(sizeof(char*) * buf);
+	char **tokens = malloc(sizeof(char*) * buf);
 	char *token;
 
 	if(!tokens){
@@ -98,15 +99,6 @@ execute(char **args)
 		// An empty command was entered.
 		return 1;
 	}
-
-	// for built-ins functions
-	/* for(int i = 0; i < num_builtins(); i++){
-	 	// FIXME segfault here
-		if(strcmp(args[0], builtin_str[i]) == 0){
-			return (*builtin_func[i])(args);
-		}
-	}
-	*/
 
 	return launch(args);
 }
