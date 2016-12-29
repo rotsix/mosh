@@ -21,7 +21,7 @@ $(TARGET): $(OBJECTS)
 
 clean:
 	@rm -f *.o
-	
-	
+
+
 mrproper: clean
 	@rm -f $(TARGET)
