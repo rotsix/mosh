@@ -4,13 +4,27 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include "built-ins.h"
 #include "config.h"
 
-#define AUTHOR "Piczel"
+#define AUTHOR "rotsix"
 #define VERSION "0.1.0"
 #define LICENSE "LGPL"
 
 #define TOKENS " \t\r\n\a"
+
+
+/* prototypes */
+char * readline(void);
+char ** splitLine(char *);
+int launch(char **);
+int execute(char **);
+
+/* variables */
+static const int nb_built_in_functions = 1;
+static const void * built_in_functions[] = {
+	cd,
+};
 
 
 
@@ -95,9 +109,18 @@ launch(char **args)
 int
 execute(char **args)
 {
+	int i;
+
 	if (args[0] == NULL) {
 		// An empty command was entered.
-		return 1;
+		return 0;
+	}
+
+	// We check into our built-in functions.
+	for(i = 0; i < nb_built_in_functions; i++){
+		if(strcmp(args[0], built_in_functions[i])){
+			return built_in_functions[i](args);
+		}
 	}
 
 	return launch(args);
@@ -108,6 +131,8 @@ execute(char **args)
 int
 main(int argc, char *argv[])
 {
+	// NOTE getopt in unistd.h if needed
+
 	char *line;
 	char **args;
 	int status;
