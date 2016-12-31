@@ -3,6 +3,9 @@
 #include <unistd.h>
 #include <string.h>
 
+#ifndef RETURN_SUCCESS
+#define RETURN_SUCCESS 1
+
 int
 cd(const char **args)
 {
@@ -12,20 +15,25 @@ cd(const char **args)
 		if(chdir(home) != 0){
 			fprintf(stderr, "See `man cd` for more informations.\n");
 		}
-		return 1;
+		return RETURN_SUCCESS;
 	} else if(args[2] != NULL && strcmp(args[1],"-L") != 0 && strcmp(args[1],"-P") != 0){
 		fprintf(stderr, "See `man cd` for more informations.\n");
-		return 1;
+		return RETURN_SUCCESS;
 	} else if(strcmp(args[1], "-") == 0){
 		char *oldpwd = getenv("OLDPWD");
 		if(chdir(oldpwd) != 0){
 			fprintf(stderr, "See `man cd` for more informations.\n");
+			fprintf(stderr, "OLDPWD may is not set.\n");
 		}
-		return 1;
+		return RETURN_SUCCESS;
 	} else {
 		if(chdir(args[1]) != 0){
-			fprintf(stderr, "See `man cd` for more informations.\n");
+			fprintf(stderr, "Path not found.\n");
 		}
-		return 1;
+		return RETURN_SUCCESS;
 	}
 }
+
+
+#endif
+#undef RETURN_SUCCESS
