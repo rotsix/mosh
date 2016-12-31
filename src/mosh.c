@@ -16,7 +16,7 @@ static int execute(const char **);
 /* Structures */
 typedef struct {
 	const char *name;
-	const char *func[10]; // Is that enough for "normal" aliases ?
+	const char *func[10]; // NOTE Is that enough for "normal" aliases ?
 } Alias;
 typedef struct { // Used for built-in functions (dictionnary).
 	const char *name;

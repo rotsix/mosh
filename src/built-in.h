@@ -1,1 +1,1 @@
-int cd(const char ** args);
+int cd(const char **);

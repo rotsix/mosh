@@ -14,8 +14,8 @@ prompt(void)
 static Alias aliases[] = {
 	/* name				command */
 	{ "syu",			{ "sudo", "pacman", "-Syu", NULL, } },
-	{ "ls",				{ "ls", "-Fh", "--color=auto" } },
-	{ "la",				{ "ls", "-AFh", "--color=auto" } },
-	{ "ll",				{ "ls", "-Fhl", "--color=auto" } },
-	{ "lla",			{ "ls", "-AFhl", "--color=auto" } },
+	{ "ls",				{ "ls", "-Fh", "--color=auto", NULL, } },
+	{ "la",				{ "ls", "-AFh", "--color=auto", NULL, } },
+	{ "ll",				{ "ls", "-Fhl", "--color=auto", NULL, } },
+	{ "lla",			{ "ls", "-AFhl", "--color=auto", NULL, } },
 };
