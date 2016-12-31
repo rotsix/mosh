@@ -4,27 +4,34 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include "built-ins.h"
-#include "config.h"
-
-#define AUTHOR "rotsix"
-#define VERSION "0.1.0"
-#define LICENSE "LGPL"
-
-#define TOKENS " \t\r\n\a"
+#include "built-in.h"
 
 
-/* prototypes */
-char * readline(void);
-char ** splitLine(char *);
-int launch(char **);
-int execute(char **);
+/* Prototypes */
+static char* readLine(void);
+static char** splitLine(const char *);
+static int launch(const char **);
+static int execute(const char **);
 
-/* variables */
-static const int nb_built_in_functions = 1;
-static const void * built_in_functions[] = {
-	cd,
+/* Structures */
+typedef struct {
+	const char *name;
+	const char *func[10]; // Is that enough for "normal" aliases ?
+} Alias;
+typedef struct { // Used for built-in functions (dictionnary).
+	const char *name;
+	int (*func)(const char **);
+} Function;
+
+/* Variables */
+static const char TOKENS[] = " \t\r\n\a";
+static const Function built_in_functions[] = {
+	{ "cd" , 	cd },
 };
+
+
+
+#include "config.h"
 
 
 
@@ -43,11 +50,11 @@ readLine(void)
 
 
 char **
-splitLine(char *line)
+splitLine(const char *line)
 {
-	int buf = 64;
-	int bufsize = buf;
-	int position = 0;
+	size_t buf = 64;
+	size_t bufsize = buf;
+	unsigned int position = 0;
 	char **tokens = malloc(sizeof(char*) * buf);
 	char *token;
 
@@ -79,7 +86,7 @@ splitLine(char *line)
 
 
 int
-launch(char **args)
+launch(const char **args)
 {
 	pid_t pid, wpid;
 	int status;
@@ -101,27 +108,37 @@ launch(char **args)
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 
-	return 1;
+	return EXIT_FAILURE;
 }
 
 
 
 int
-execute(char **args)
+execute(const char **args)
 {
 	int i;
+	int nb_built_in_functions = sizeof(built_in_functions)/sizeof(built_in_functions[0]);
+	int nb_aliases = sizeof(aliases)/sizeof(aliases[0]);
 
 	if (args[0] == NULL) {
 		// An empty command was entered.
-		return 0;
+		return EXIT_SUCCESS;
+	}
+
+	// We check into our aliases
+	for(i = 0; i < nb_aliases; i++){
+		if(strcmp(args[0], aliases[i].name) == 0){
+			return launch(aliases[i].func);
+		}
 	}
 
 	// We check into our built-in functions.
 	for(i = 0; i < nb_built_in_functions; i++){
-		if(strcmp(args[0], built_in_functions[i])){
-			return built_in_functions[i](args);
+		if(strcmp(args[0], built_in_functions[i].name) == 0){
+			return (*(built_in_functions[i].func))(args);
 		}
 	}
+
 
 	return launch(args);
 }
