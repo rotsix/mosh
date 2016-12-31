@@ -1,1 +1,2 @@
 - adding 'multi' aliases support (ls aliased to 'ls -Fh', and la to 'ls -A' which should use 'ls -Fh -A')
+- adding a 'which' (same as zsh)
