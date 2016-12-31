@@ -3,7 +3,7 @@ LIBS = -lm
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Os -pipe -Wpedantic
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 .PHONY: default all clean
 

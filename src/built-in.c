@@ -14,6 +14,7 @@ cd(const char **args)
 		const char *home = getenv("HOME");
 		if(chdir(home) != 0){
 			fprintf(stderr, "See `man cd` for more informations.\n");
+			fprintf(stderr, "HOME may is not set.\n");
 		}
 		return RETURN_SUCCESS;
 	} else if(args[2] != NULL && strcmp(args[1],"-L") != 0 && strcmp(args[1],"-P") != 0){
