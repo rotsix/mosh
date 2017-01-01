@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#define RETURN_SUCCESS 1
+#define RETURN_FAILURE 0
+
+
 #include "built-in.h"
 
 
@@ -40,6 +44,14 @@ readLine(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
+
+	// Here we should build the auto-completion using this :
+	// size_t strlen(const char *s);
+	// int strncmp(const char *s1, const char *s2, size_t n);
+	// where s1 is the initial string and s2 the stdin
+
+	// strncmp(s1, s2, strlen(s2)) == 0 or something like this
+
 	if(getline(&line,&bufsize,stdin) == -1){
 		fprintf(stderr, "mosh: reading line error\n");
 		exit(EXIT_FAILURE);
@@ -108,7 +120,7 @@ launch(const char **args)
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 
-	return EXIT_FAILURE;
+	return RETURN_SUCCESS;
 }
 
 
@@ -122,7 +134,7 @@ execute(const char **args)
 
 	if (args[0] == NULL) {
 		// An empty command was entered.
-		return EXIT_SUCCESS;
+		return RETURN_SUCCESS;
 	}
 
 	// We check into our aliases

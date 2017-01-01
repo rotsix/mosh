@@ -3,8 +3,9 @@
 #include <unistd.h>
 #include <string.h>
 
-#ifndef RETURN_SUCCESS
 #define RETURN_SUCCESS 1
+#define RETURN_FAILURE 0
+
 
 int
 cd(const char **args)
@@ -34,7 +35,3 @@ cd(const char **args)
 		return RETURN_SUCCESS;
 	}
 }
-
-
-#endif
-#undef RETURN_SUCCESS
