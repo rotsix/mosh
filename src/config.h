@@ -7,6 +7,11 @@ char *
 prompt(void)
 {
 	char *prompt = "$ ";
+
+	if(geteuid() == 0){
+		prompt = "# ";
+	}
+
 	return prompt;
 }
 
