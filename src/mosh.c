@@ -53,7 +53,7 @@ readLine(void)
 	// strncmp(s1, s2, strlen(s2)) == 0 or something like this
 
 	if(getline(&line,&bufsize,stdin) == -1){
-		fprintf(stderr, "mosh: reading line error\n");
+		perror("mosh: reading line error\n");
 		exit(EXIT_FAILURE);
 	}
 	return line;
@@ -71,7 +71,7 @@ splitLine(const char *line)
 	char *token;
 
 	if(!tokens){
-		fprintf(stderr, "mosh: allocation error\n");
+		perror("mosh: allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -84,7 +84,7 @@ splitLine(const char *line)
 			bufsize += buf;
 			tokens = realloc(tokens, sizeof(char*) * bufsize);
 			if(!tokens){
-				fprintf(stderr, "mosh: allocation error\n");
+				perror("mosh: allocation error\n");
 				exit(EXIT_FAILURE);
 			}
 		}
