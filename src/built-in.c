@@ -12,7 +12,7 @@ cd(const char **args)
 {
 	char cwd[1024];
 	if(getcwd(cwd, sizeof(cwd)) == NULL){
-		fprintf(stderr, "getcwd() error");
+		perror("getcwd()");
 	}
 
 	if(args[1] == NULL || strcmp(args[1], "~") == 0){
