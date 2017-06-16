@@ -8,7 +8,7 @@
 
 
 int
-cd(const char **args)
+cd(char **args)
 {
 	char cwd[1024];
 	if(getcwd(cwd, sizeof(cwd)) == NULL){

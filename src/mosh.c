@@ -13,23 +13,23 @@
 
 /* Prototypes */
 static char* readLine(void);
-static char** splitLine(const char *);
-static int launch(const char **);
-static int execute(const char **);
+static char** splitLine(char *);
+static int launch(char **);
+static int execute(char **);
 
 /* Structures */
 typedef struct {
-	const char *name;
-	const char *func[10]; // NOTE Is that enough for "normal" aliases ?
+	char *name;
+	char *func[10]; // NOTE Is that enough for "normal" aliases ?
 } Alias;
 typedef struct { // Used for built-in functions (dictionnary).
-	const char *name;
-	int (*func)(const char **);
+	char *name;
+	int (*func)(char **);
 } Function;
 
 /* Variables */
-static const char TOKENS[] = " \t\r\n\a";
-static const Function built_in_functions[] = {
+static char TOKENS[] = " \t\r\n\a";
+static Function built_in_functions[] = {
 	{ "cd" , 	cd },
 };
 
@@ -46,8 +46,8 @@ readLine(void)
 	size_t bufsize = 0;
 
 	// Here we should build the auto-completion using this :
-	// size_t strlen(const char *s);
-	// int strncmp(const char *s1, const char *s2, size_t n);
+	// size_t strlen(char *s);
+	// int strncmp(char *s1, char *s2, size_t n);
 	// where s1 is the initial string and s2 the stdin
 
 	// strncmp(s1, s2, strlen(s2)) == 0 or something like this
@@ -62,7 +62,7 @@ readLine(void)
 
 
 char **
-splitLine(const char *line)
+splitLine(char *line)
 {
 	size_t buf = 64;
 	size_t bufsize = buf;
@@ -98,7 +98,7 @@ splitLine(const char *line)
 
 
 int
-launch(const char **args)
+launch(char **args)
 {
 	pid_t pid, wpid;
 	int status;
@@ -126,7 +126,7 @@ launch(const char **args)
 
 
 int
-execute(const char **args)
+execute(char **args)
 {
 	int i;
 	int nb_built_in_functions = sizeof(built_in_functions)/sizeof(built_in_functions[0]);
