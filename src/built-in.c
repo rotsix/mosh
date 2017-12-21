@@ -16,7 +16,7 @@ cd(char **args)
 	}
 
 	if(args[1] == NULL || strcmp(args[1], "~") == 0){
-		// We go to $HOME
+		// Way back $HOME
 		const char *home = getenv("HOME");
 		setenv("OLDPWD", cwd, 1);
 		if(chdir(home) != 0){
