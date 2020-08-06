@@ -42,7 +42,28 @@ cd(char **args)
 		printf("%s\n", getenv("PWD"));
 		return RETURN_SUCCESS;
 	} else {
-		if(chdir(args[1]) != 0){
+		char *path;
+		const char *home = getenv("HOME");
+		// Replace ~ with $HOME
+		if(!strchr(args[1], '~')) {
+			path = args[1];
+		} else {
+			// path/to/~/to/path
+			int i;
+			path = (char *)malloc(strlen(args[1] - 1 + strlen(home)));
+			for(i = 0; args[1][i] != '~'; i++) {
+				path[i] = args[1][i];
+			}
+			// path/to/
+			strncpy(path + i, home, strlen(home));
+			// path/to/$HOME
+			for(; i < strlen(args[1]); i++) {
+				path[i + strlen(home)] = args[1][i+1];
+			}
+			// path/to/$HOME/to/path
+		}
+
+		if(chdir(path) != 0){
 			fprintf(stderr, "Path not found.\n");
 		} else {
 			setenv("OLDPWD", cwd, 1);
